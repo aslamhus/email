@@ -11,18 +11,14 @@ To use this class in your project, follow these steps:
 1. Create an account with [Sendgrid](https://sendgrid.com).
 
 2. Create an API Key in your new sendgrid account.
-
-In the sidebar of your dashboard, choose `EmailApi`, then select `Integration Guide` from the dropdown. Choose WebApi -> Php, then create your api key. You do not need to install sendgrid through composer, installing this class will do that for you. The last step in the integration guide is to send a verification email. Before we do that, install the library.
+   In the sidebar of your dashboard, choose `EmailApi`, then select `Integration Guide` from the dropdown. Choose WebApi -> Php, then create your api key. You do not need to install sendgrid through composer, installing this class will do that for you. The last step in the integration guide is to send a verification email. Before we do that, install the library.
 
 3. Create a single sender identity.
-
-This will allow you to send emails from an authenticated email. In the sidebar choose `Sender Authentication`,
-then `Verify a Single Sender`. Follow the steps. You'll use this email in the `from` method when sending emails.
-
+   This will allow you to send emails from an authenticated email. In the sidebar choose `Sender Authentication`, then `Verify a Single Sender`. Follow the steps. You'll use this email in the `from` method when sending emails.
 4. Install `Aslamhus/Email`
 
 ```php
-composer require aslamhus/email
+composer require aslamhus/sendgrid-email-wrapper
 ```
 
 5. Send verficiation email (optional)
@@ -35,9 +31,8 @@ $didSend = $email->sendVerifyIntegrationEmail(['verified@example.com', 'Verified
 // $didSend will return true if everything is set up correctly.
 ```
 
-6.  Confirm verification
-
-Go back to the integration guide in your Sendgrid account, and at the bottom of the page choose `Verify Integration`. You should get a confirmation that your integration was successful.
+6. Confirm verification.
+   Go back to the integration guide in your Sendgrid account, and at the bottom of the page choose `Verify Integration`. You should get a confirmation that your integration was successful.
 
 ## Usage
 
