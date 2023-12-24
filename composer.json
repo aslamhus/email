@@ -1,5 +1,5 @@
 {
-  "name": "aslamhus/email",
+  "name": "aslamhus/sendgrid-email-wrapper",
   "description": "a fluent interface for the SendGrid API v3, providing methods for constructing and sending emails with features such as dynamic template data, attachments, and various content types",
   "type": "library",
   "require": {
