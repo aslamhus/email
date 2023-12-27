@@ -17,19 +17,19 @@ To use this class in your project, follow these steps:
    This will allow you to send emails from an authenticated email. In the sidebar choose `Sender Authentication`, then `Verify a Single Sender`. Follow the steps. You'll use this email in the `from` method when sending emails.
 4. Install `Aslamhus/Email`
 
-```php
-composer require aslamhus/sendgrid-email-wrapper
-```
+   ```php
+   composer require aslamhus/sendgrid-email-wrapper
+   ```
 
 5. Send verficiation email (optional)
 
-```php
-// add your api key
-$email = new Email('your-sendgrid-api-key');
-// make sure to add your single sender identity email and name
-$didSend = $email->sendVerifyIntegrationEmail(['verified@example.com', 'Verified User']);
-// $didSend will return true if everything is set up correctly.
-```
+   ```php
+   // add your api key
+   $email = new Email('your-sendgrid-api-key');
+   // make sure to add your single sender identity email and name
+   $didSend = $email->sendVerifyIntegrationEmail(['verified@example.com', 'Verified User']);
+   // $didSend will return true if everything is set up correctly.
+   ```
 
 6. Confirm verification.
    Go back to the integration guide in your Sendgrid account, and at the bottom of the page choose `Verify Integration`. You should get a confirmation that your integration was successful.
@@ -83,7 +83,7 @@ $email = new Email('your-sendgrid-api-key')
   $email->addContent('text/html', '<p>This is the HTML content</p>');
   ```
 
-  - **Get email response:**
+- **Get email response:**
 
   ```php
   // retrieve the response body, headers and status code after sending
