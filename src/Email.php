@@ -16,13 +16,12 @@ use SendGrid\Response;
  *
  * by @aslamhus on github
  *
+ * For examples @see https://github.com/aslamhus/email.git
+ *
  * For further information on the SendGrid API:
- *
- * On github @see https://github.com/sendgrid/sendgrid-php/blob/main/USAGE.md
- * For methods @see https://github.com/sendgrid/sendgrid-php/blob/08514e75789f192c034fdcf18efe6d8b1a7c91da/lib/BaseSendGridClientInterface.php#L65
- *
- * For examples @see readme file
- */
+ * • Usage @see https://github.com/sendgrid/sendgrid-php/blob/main/USAGE.md
+ * • Methods @see https://github.com/sendgrid/sendgrid-php/blob/08514e75789f192c034fdcf18efe6d8b1a7c91da/lib/BaseSendGridClientInterface.php#L65
+ **/
 class Email
 {
     private string $apiKey;
@@ -30,6 +29,7 @@ class Email
     private \SendGrid $sendGrid;
     // the email object
     private Mail $email;
+    private Response $response;
 
     public function __construct(string $apiKey)
     {
@@ -187,22 +187,27 @@ class Email
     /**
      * Send an email
      *
-     * @return bool
+     * Response Codes
+     *
+     * 200 - The email was successfully sent.
+     * 202 - The email was successfully accepted for delivery.
+     * 400 - Bad request. You did something wrong.
+     * 401 - Unauthorized. Your API key is wrong..
+     *
+     *
+     * @return bool - true if email was sent
+     * @throws EmailException if email fails to send
      */
     public function send(): bool
     {
         $this->validateApiKey();
-        try {
-            /**
-             * @var Response $response
-             */
-            $response = $this->sendGrid->send($this->email);
-            $status = $response->statusCode();
-            if ($status != 200 && $status != 202) {
-                throw new EmailException($response->statusCode());
-            }
-        } catch (\Exception $e) {
-            throw new EmailException('Failed to send email: ' . $e->getMessage());
+        /**
+         * @var Response $response
+         */
+        $this->response = $this->sendGrid->send($this->email);
+        $status = $this->response->statusCode();
+        if ($status != 200 && $status != 202) {
+            throw new EmailException('Failed to send email. Http response code was: ' . $this->response->statusCode());
         }
 
         return true;
@@ -231,6 +236,44 @@ class Email
         return $this->send();
 
     }
+
+    /**
+     * Check if response is available
+     *
+     * @return boolean
+     * @throws EmailException
+     */
+    private function isResponseAvailable(): bool
+    {
+        if(isset($this->response)) {
+            return true;
+        }
+        throw new EmailException('Response not available, email has not been sent.');
+    }
+
+    /**
+     * Get response
+     *
+     * Response object contains the status code, headers, and body of the response
+     *
+     * You can use the response object to check the status code and headers and body
+     * of the response.
+     *
+     * @example
+     *
+     * $response = $email->getResponse();
+     * $statusCode = $response->statusCode();
+     * $headers = $response->headers();
+     * $body = $response->body();
+     *
+     * @return Response
+     */
+    public function getResponse(): Response
+    {
+        $this->isResponseAvailable();
+        return $this->response;
+    }
+
 }
 
 class EmailException extends \Exception
